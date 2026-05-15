@@ -2259,17 +2259,7 @@ const PlanDetailPage: React.FC = () => {
               </Col>
             </Row>
             
-            {/* 地图组件 - 独立的全宽区域 */}
-            <Row style={{ marginTop: '24px' }}>
-              <Col span={24}>
-                <MapComponent 
-                  destination={currentPlan?.destination || planDetail?.destination}
-                  latitude={currentPlan.destination_info?.latitude || 39.9042}
-                  longitude={currentPlan.destination_info?.longitude || 116.4074}
-                  title="目的地地图"
-                />
-              </Col>
-            </Row>
+            {/* 地图已在「方案概览」→「地图」标签页中展示 */}
           
           </TabPane>
 

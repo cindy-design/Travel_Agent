@@ -1206,7 +1206,7 @@ const TravelPlanPage: React.FC = () => {
               <Col xs={24} sm={12}>
                 <Form.Item
                   name="travelers"
-                  label="出行人数"
+                  label="出行人数（人）"
                   rules={[{ required: true, message: '请选择出行人数' }]}
                 >
                   <InputNumber
@@ -1215,7 +1215,6 @@ const TravelPlanPage: React.FC = () => {
                     style={{ width: '100%' }}
                     placeholder="请输入出行人数"
                     prefix={<UserOutlined />}
-                    addonAfter="人"
                   />
                 </Form.Item>
               </Col>
@@ -1314,14 +1313,17 @@ const TravelPlanPage: React.FC = () => {
               />
             </Form.Item>
             
-            <Form.Item>
-              <Button 
-                type="primary" 
-                htmlType="submit" 
+            <Form.Item style={{ textAlign: 'center' }}>
+              <Button
+                type="primary"
+                htmlType="submit"
                 loading={loading}
                 icon={<SearchOutlined />}
                 size="large"
-                style={{ 
+                className="btn-primary"
+                style={{
+                  minWidth: '240px',
+                  maxWidth: '400px',
                   width: '100%',
                   height: '48px',
                   borderRadius: '8px'

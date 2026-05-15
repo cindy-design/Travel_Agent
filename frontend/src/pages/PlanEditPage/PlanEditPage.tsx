@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Form, Input, Button, DatePicker, Select, Space, message, Typography, Spin, InputNumber, Divider } from 'antd';
+import { Card, Form, Input, Button, DatePicker, Select, Space, message, Typography, Spin, InputNumber, Divider, Steps } from 'antd';
+import { EditOutlined, DollarOutlined, UserOutlined, HeartOutlined, CheckCircleOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { useParams, useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { buildApiUrl, API_ENDPOINTS } from '../../config/api';
 import { authFetch } from '../../utils/auth';
 import { TRANSPORTATION_OPTIONS, AGE_GROUP_OPTIONS, FOOD_PREFERENCES_OPTIONS, DIETARY_RESTRICTIONS_OPTIONS, STATUS_OPTIONS, PREFERENCES_OPTIONS } from '../../constants/travel';
 
-const { Title } = Typography;
+const { Title, Paragraph } = Typography;
 const { RangePicker } = DatePicker;
 
 interface PlanDetail {
@@ -174,92 +175,114 @@ const PlanEditPage: React.FC = () => {
   };
 
   return (
-    <div className="plan-edit-page" style={{ maxWidth: 900, margin: '0 auto' }}>
-      <Card>
-        <Space direction="vertical" style={{ width: '100%' }} size="large">
-          <Title level={3} style={{ marginBottom: 0 }}>编辑旅行计划</Title>
-          {loading ? (
-            <div style={{ textAlign: 'center', padding: '24px' }}>
-              <Spin />
-            </div>
-          ) : (
-            <Form form={form} layout="vertical">
-              {/* 基本信息 */}
-              <Divider orientation="left" className="section-divider">基本信息</Divider>
-              <Form.Item label="标题" name="title" rules={[{ required: true, message: '请输入标题' }]}> 
-                <Input placeholder="计划标题" />
-              </Form.Item>
-              <Form.Item label="出发地" name="departure"> 
-                <Input placeholder="例如：上海" />
-              </Form.Item>
-              <Form.Item label="目的地" name="destination" rules={[{ required: true, message: '请输入目的地' }]}> 
-                <Input placeholder="例如：北京" />
-              </Form.Item>
-              
-              <Form.Item label="出行日期" name="dateRange"> 
-                <RangePicker showTime />
-              </Form.Item>
-  
-              {/* 旅行参数 */}
-              <Divider orientation="left" className="section-divider">旅行参数</Divider>
-              <Space size="large" wrap>
-                <Form.Item label="预算(￥)" name="budget">
-                  <InputNumber style={{ width: 200 }} min={0} step={100} placeholder="预算" />
-                </Form.Item>
-                <Form.Item label="出行方式" name="transportation">
-                  <Select options={TRANSPORTATION_OPTIONS} allowClear style={{ width: 200 }} placeholder="选择出行方式"/>
-                </Form.Item>
-                <Form.Item label="出行人数" name="travelers">
-                  <InputNumber style={{ width: 120 }} min={1} placeholder="人数" />
-                </Form.Item>
-              </Space>
-  
-              {/* 人群与饮食 */}
-              <Divider orientation="left" className="section-divider">人群与饮食</Divider>
-              <Form.Item label="年龄组成" name="ageGroups">
-                <Select mode="multiple" options={AGE_GROUP_OPTIONS} placeholder="选择年龄组成"/>
-              </Form.Item>
-              <Form.Item label="口味偏好" name="foodPreferences">
-                <Select mode="multiple" options={FOOD_PREFERENCES_OPTIONS} placeholder="选择口味偏好"/>
-              </Form.Item>
-              <Form.Item label="饮食禁忌" name="dietaryRestrictions">
-                <Select mode="multiple" options={DIETARY_RESTRICTIONS_OPTIONS} placeholder="选择饮食禁忌"/>
-              </Form.Item>
-  
-              {/* 偏好与特殊要求 */}
-              <Divider orientation="left" className="section-divider">偏好与特殊要求</Divider>
-              <Form.Item label="旅行偏好" name="travelPreferences">
-                <Select
-                  mode="multiple"
-                  options={PREFERENCES_OPTIONS}
-                  placeholder="选择旅行偏好（与创建页一致）"
-                  allowClear
-                />
-              </Form.Item>
-              <Form.Item label="特殊要求" name="specialRequirements">
-                <Input.TextArea
-                  placeholder="请输入特殊要求（如：带老人、带小孩、无障碍设施、特殊饮食需求等）"
-                  rows={4}
-                />
-              </Form.Item>
+    <div className="plan-edit-page" style={{ maxWidth: 960, margin: '0 auto', padding: '24px' }}>
+      {/* 页面头部 */}
+      <div style={{ textAlign: 'center', marginBottom: 32 }}>
+        <Title level={2} className="gradient-text" style={{ marginBottom: 8 }}>编辑旅行计划</Title>
+        <Paragraph style={{ color: 'var(--text-soft)', marginBottom: 0 }}>修改您的旅行计划信息，完成后点击保存</Paragraph>
+      </div>
 
-              {/* 状态与描述 */}
-              <Divider orientation="left" className="section-divider">状态与描述</Divider>
-              <Form.Item label="状态" name="status"> 
-                <Select options={STATUS_OPTIONS} placeholder="选择状态" allowClear />
-              </Form.Item>
-              <Form.Item label="描述" name="description"> 
-                <Input.TextArea placeholder="计划描述" rows={4} />
-              </Form.Item>
-  
-              <Space>
-                <Button onClick={() => navigate(`/plan/${planId}`)}>取消</Button>
-                <Button type="primary" loading={saving} onClick={handleSave}>保存</Button>
-              </Space>
-            </Form>
-          )}
-        </Space>
+      {/* 步骤指示器 */}
+      <Card className="glass-card" style={{ marginBottom: 24, padding: '20px 32px' }}>
+        <Steps
+          current={-1}
+          size="small"
+          items={[
+            { title: '基本信息', icon: <EditOutlined /> },
+            { title: '旅行参数', icon: <DollarOutlined /> },
+            { title: '人群饮食', icon: <UserOutlined /> },
+            { title: '偏好要求', icon: <HeartOutlined /> },
+            { title: '状态描述', icon: <CheckCircleOutlined /> },
+          ]}
+        />
       </Card>
+
+      {loading ? (
+        <div style={{ textAlign: 'center', padding: 60 }}>
+          <Spin size="large" />
+          <Paragraph style={{ marginTop: 16, color: 'var(--text-soft)' }}>加载计划详情...</Paragraph>
+        </div>
+      ) : (
+        <Card className="glass-card">
+          <Form form={form} layout="vertical">
+            {/* 基本信息 */}
+            <Divider orientation="left" className="section-divider">
+              <Space><EditOutlined /><span>基本信息</span></Space>
+            </Divider>
+            <Form.Item label="标题" name="title" rules={[{ required: true, message: '请输入标题' }]}>
+              <Input placeholder="计划标题" />
+            </Form.Item>
+            <Form.Item label="出发地" name="departure">
+              <Input placeholder="例如：上海" />
+            </Form.Item>
+            <Form.Item label="目的地" name="destination" rules={[{ required: true, message: '请输入目的地' }]}>
+              <Input placeholder="例如：北京" />
+            </Form.Item>
+            <Form.Item label="出行日期" name="dateRange">
+              <RangePicker showTime />
+            </Form.Item>
+
+            {/* 旅行参数 */}
+            <Divider orientation="left" className="section-divider">
+              <Space><DollarOutlined /><span>旅行参数</span></Space>
+            </Divider>
+            <Space size="large" wrap>
+              <Form.Item label="预算(￥)" name="budget">
+                <InputNumber style={{ width: 200 }} min={0} step={100} placeholder="预算" />
+              </Form.Item>
+              <Form.Item label="出行方式" name="transportation">
+                <Select options={TRANSPORTATION_OPTIONS} allowClear style={{ width: 200 }} placeholder="选择出行方式"/>
+              </Form.Item>
+              <Form.Item label="出行人数" name="travelers">
+                <InputNumber style={{ width: 120 }} min={1} placeholder="人数" />
+              </Form.Item>
+            </Space>
+
+            {/* 人群与饮食 */}
+            <Divider orientation="left" className="section-divider">
+              <Space><UserOutlined /><span>人群与饮食</span></Space>
+            </Divider>
+            <Form.Item label="年龄组成" name="ageGroups">
+              <Select mode="multiple" options={AGE_GROUP_OPTIONS} placeholder="选择年龄组成"/>
+            </Form.Item>
+            <Form.Item label="口味偏好" name="foodPreferences">
+              <Select mode="multiple" options={FOOD_PREFERENCES_OPTIONS} placeholder="选择口味偏好"/>
+            </Form.Item>
+            <Form.Item label="饮食禁忌" name="dietaryRestrictions">
+              <Select mode="multiple" options={DIETARY_RESTRICTIONS_OPTIONS} placeholder="选择饮食禁忌"/>
+            </Form.Item>
+
+            {/* 偏好与特殊要求 */}
+            <Divider orientation="left" className="section-divider">
+              <Space><HeartOutlined /><span>偏好与特殊要求</span></Space>
+            </Divider>
+            <Form.Item label="旅行偏好" name="travelPreferences">
+              <Select mode="multiple" options={PREFERENCES_OPTIONS} placeholder="选择旅行偏好" allowClear />
+            </Form.Item>
+            <Form.Item label="特殊要求" name="specialRequirements">
+              <Input.TextArea placeholder="请输入特殊要求（如：带老人、带小孩、无障碍设施、特殊饮食需求等）" rows={4} />
+            </Form.Item>
+
+            {/* 状态与描述 */}
+            <Divider orientation="left" className="section-divider">
+              <Space><CheckCircleOutlined /><span>状态与描述</span></Space>
+            </Divider>
+            <Form.Item label="状态" name="status">
+              <Select options={STATUS_OPTIONS} placeholder="选择状态" allowClear />
+            </Form.Item>
+            <Form.Item label="描述" name="description">
+              <Input.TextArea placeholder="计划描述" rows={4} />
+            </Form.Item>
+
+            <div style={{ textAlign: 'center', marginTop: 32 }}>
+              <Space size="middle">
+                <Button size="large" className="btn-secondary" onClick={() => navigate(`/plan/${planId}`)} icon={<ArrowLeftOutlined />}>取消</Button>
+                <Button type="primary" size="large" className="btn-primary" loading={saving} onClick={handleSave} icon={<CheckCircleOutlined />}>保存修改</Button>
+              </Space>
+            </div>
+          </Form>
+        </Card>
+      )}
     </div>
   );
 };

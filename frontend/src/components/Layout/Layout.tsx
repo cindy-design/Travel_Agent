@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Layout as AntLayout, Menu, Button, Drawer, Typography, Avatar, Dropdown, Modal, Form, Input, message } from 'antd';
+import { Layout as AntLayout, Menu, Button, Drawer, Typography, Avatar, Dropdown, Modal, Form, Input, message, Space } from 'antd';
 import { 
   HomeOutlined, 
   HistoryOutlined, 
@@ -190,7 +190,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <img src="/images/logo.png" alt="Logo" style={{ width: 24, height: 24 }} />
             </div>
             <Title level={3} className="brand-title gradient-text" style={{ margin: 0, fontWeight: '800' }}>
-              洛曦 云旅
+              莫柒智能旅游
             </Title>
           </div>
 
@@ -283,26 +283,44 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </Modal>
 
       <Content className="app-content" style={{ minHeight: 'calc(100vh - 64px - 70px)', background: 'transparent' }}>
-        {children}
+        <div key={location.pathname} className="fade-in">
+          {children}
+        </div>
       </Content>
 
-      <Footer 
-        style={{ textAlign: 'center', background: '#0f0f1e', borderTop: '1px solid rgba(255,255,255,0.1)' }}
+      <Footer
+        style={{
+          textAlign: 'center',
+          background: 'linear-gradient(180deg, #f5f6fa 0%, #e8eaf0 100%)',
+          borderTop: '1px solid rgba(0, 0, 0, 0.06)',
+          padding: '32px 24px'
+        }}
       >
-        <div style={{ color: 'rgba(255,255,255,0.7)' }}>
-          <p style={{ margin: '8px 0' }}>
-            © 2025{' '}
-            <a
-              href="https://luoxiai.dpdns.org/"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: 'inherit', textDecoration: 'none' }}
-            >
-              洛曦 云旅Agent
-            </a>
-            . 智能旅游攻略生成器
-          </p>
-          <p style={{ margin: '8px 0', fontSize: '12px' }}>基于AI技术，为您提供个性化的旅行方案规划</p>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16, gap: 8 }}>
+            <img src="/images/logo.png" alt="Logo" style={{ width: 28, height: 28, borderRadius: '50%' }} />
+            <Typography.Text strong className="gradient-text" style={{ fontSize: 18 }}>
+              莫柒智能旅游助手
+            </Typography.Text>
+          </div>
+          <Space size={24} style={{ marginBottom: 16 }}>
+            <a href="/">首页</a>
+            <a href="/destinations">目的地</a>
+            <a href="/about">关于我们</a>
+          </Space>
+          <div style={{ color: 'var(--text-soft)', fontSize: 13 }}>
+            <p style={{ margin: '8px 0' }}>
+              &copy; {new Date().getFullYear()}{' '}
+              <a href="https://github.com/cindy-design/Travel_Agent" target="_blank" rel="noopener noreferrer"
+                 style={{ color: 'var(--accent-a)', textDecoration: 'none' }}>
+                莫柒智能旅游助手
+              </a>
+              {' '}&mdash; 基于AI技术的智能旅游攻略生成器
+            </p>
+            <p style={{ margin: '8px 0', fontSize: 12, color: 'rgba(0,0,0,0.35)' }}>
+              为您提供个性化的旅行方案规划，让每一次出行都充满惊喜
+            </p>
+          </div>
         </div>
       </Footer>
 

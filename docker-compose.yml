@@ -41,12 +41,14 @@ services:
     depends_on:
       - postgres
       - redis
+    ports:
+      - "8001:8001"
     volumes:
       - ./backend:/app
       - ./logs:/app/logs
     networks:
       - skyroam-network
-    command: bash -lc "uvicorn main:app --host 0.0.0.0 --port ${PORT} --reload"
+    command: bash -lc "uvicorn main:app --host 0.0.0.0 --port $${PORT:-8001} --reload"
 
   # Celery Worker（仅内网）
   celery-worker:
@@ -118,7 +120,7 @@ services:
       dockerfile: Dockerfile
     container_name: skyroam-frontend
     environment:
-      REACT_APP_API_URL: http://backend:8001
+      REACT_APP_API_URL: http://localhost:8001
       HOST: 0.0.0.0
       PORT: 3000
     ports:

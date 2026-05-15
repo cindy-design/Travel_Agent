@@ -88,7 +88,7 @@ const HomePage: React.FC = () => {
           </div>
 
           <Title level={1} className="hero-title">
-            <span className="gradient-text">洛曦 云旅Agent</span>
+            <span className="gradient-text">莫柒智能旅游助手</span>
           </Title>
           <Title level={2} className="hero-subtitle">
             你的 AI 智能旅行规划师
@@ -118,7 +118,7 @@ const HomePage: React.FC = () => {
               size="large"
               className="btn-secondary"
               icon={<GithubOutlined />}
-              onClick={() => window.open('https://github.com/Ikaros-521/LX_SkyRoam_Agent', '_blank')}
+              onClick={() => window.open('https://github.com/cindy-design/Travel_Agent', '_blank')}
             >
               获取源码
             </Button>
@@ -142,7 +142,7 @@ const HomePage: React.FC = () => {
       <section className="features-section">
         <div className="container">
           <div className="section-header">
-            <Title level={2}>为什么选择洛曦云旅</Title>
+            <Title level={2}>为什么选择莫柒智能旅游助手</Title>
             <Paragraph>业界领先的 AI 技术，为您打造完美旅行体验</Paragraph>
           </div>
 

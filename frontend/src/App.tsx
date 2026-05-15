@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === 'development') {
 const App: React.FC = () => {
   dayjs.locale('zh-cn');
   return (
-    <ConfigProvider locale={zhCN} theme={{ token: { colorPrimary: '#6366f1', colorInfo: '#6366f1', colorSuccess: '#10b981', colorWarning: '#f59e0b', colorError: '#ef4444', borderRadius: 12 } }}>
+    <ConfigProvider locale={zhCN} theme={{ token: { colorPrimary: '#6366f1', colorInfo: '#6366f1', colorSuccess: '#10b981', colorWarning: '#f59e0b', colorError: '#ef4444', borderRadius: 12 }, components: { InputNumber: { colorBgContainer: '#ffffff', colorText: 'rgba(0,0,0,0.88)', colorTextPlaceholder: 'rgba(0,0,0,0.35)', activeBorderColor: 'rgba(124,58,237,0.4)', hoverBorderColor: 'rgba(124,58,237,0.3)' } } }}>
       <Router>
         <div className="App">
           <Layout>
