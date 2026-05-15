@@ -1,6 +1,6 @@
 
 
-# Travel_Agent - 智能旅游攻略生成器
+# Travel_Agent - 智能旅游助手Agent
 
 一个基于AI的智能旅游攻略生成系统，提供个性化的旅行方案规划。
 
