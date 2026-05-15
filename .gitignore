@@ -176,6 +176,8 @@ backend/logs/
 .history
 .env
 backend/.env
+.env.docker
+.env.local
 
 OKComputer_热门旅行攻略AI
 code
