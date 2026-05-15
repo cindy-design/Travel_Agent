@@ -664,7 +664,7 @@ const TravelPlanPage: React.FC = () => {
   };
 
   return (
-    <div className="travel-plan-page" style={{ maxWidth: '1200px', margin: '0 auto' }}>
+    <div className="travel-plan-page" style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 32px' }}>
       <div style={{ textAlign: 'center', marginBottom: '40px' }}>
         <Title level={2}>创建您的专属旅行计划</Title>
         <Paragraph style={{ fontSize: '16px', color: '#666' }}>

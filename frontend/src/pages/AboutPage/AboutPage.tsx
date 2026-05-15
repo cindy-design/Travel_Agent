@@ -58,7 +58,7 @@ const AboutPage: React.FC = () => {
   ];
 
   return (
-    <div className="about-page" style={{ maxWidth: '1200px', margin: '0 auto' }}>
+    <div className="about-page" style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 32px' }}>
       {/* 公司介绍 */}
       <Card className="glass-card" style={{ marginBottom: '24px' }}>
         <Row gutter={[32, 32]} align="middle">

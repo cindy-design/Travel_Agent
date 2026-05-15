@@ -283,7 +283,7 @@ const AttractionDetailsAdminPage: React.FC = () => {
   ];
 
   return (
-    <div style={{ maxWidth: 1400, margin: '0 auto', padding: '20px' }}>
+    <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 32px' }}>
       <Space direction="vertical" style={{ width: '100%' }} size="large">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Title level={2}>景点详细信息管理</Title>

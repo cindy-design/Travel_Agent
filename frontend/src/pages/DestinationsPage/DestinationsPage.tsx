@@ -508,7 +508,7 @@ const DestinationsPage: React.FC = () => {
   const filteredPlans = plans;
 
   return (
-    <div className="destinations-page" style={{ maxWidth: '1200px', margin: '0 auto' }}>
+    <div className="destinations-page" style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 32px' }}>
       <style>{`
         .destination-image-container .ant-image {
           width: 100% !important;

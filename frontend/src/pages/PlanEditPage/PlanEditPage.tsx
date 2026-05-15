@@ -175,7 +175,7 @@ const PlanEditPage: React.FC = () => {
   };
 
   return (
-    <div className="plan-edit-page" style={{ maxWidth: 960, margin: '0 auto', padding: '24px' }}>
+    <div className="plan-edit-page" style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 32px' }}>
       {/* 页面头部 */}
       <div style={{ textAlign: 'center', marginBottom: 32 }}>
         <Title level={2} className="gradient-text" style={{ marginBottom: 8 }}>编辑旅行计划</Title>

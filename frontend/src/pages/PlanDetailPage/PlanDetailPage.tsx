@@ -1514,7 +1514,7 @@ const PlanDetailPage: React.FC = () => {
   };
 
   return (
-    <div className="plan-detail-page" style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
+    <div className="plan-detail-page" style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 32px' }}>
       {/* 计划头部信息 */}
       <Card className="plan-header-card" style={{ marginBottom: '24px' }}>
         <Row gutter={[24, 16]} align="middle">

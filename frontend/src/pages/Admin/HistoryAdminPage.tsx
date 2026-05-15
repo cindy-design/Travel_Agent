@@ -130,7 +130,7 @@ const HistoryAdminPage: React.FC = () => {
   };
 
   return (
-    <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+    <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 32px' }}>
       <Space direction="vertical" style={{ width: '100%' }} size="large">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Title level={2}>历史记录管理</Title>

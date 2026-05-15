@@ -164,7 +164,7 @@ const UsersAdminPage: React.FC = () => {
   ];
 
   return (
-    <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+    <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 32px' }}>
       <Space direction="vertical" style={{ width: '100%' }} size="large">
         <div>
           <Title level={2}>用户管理</Title>
