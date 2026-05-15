@@ -17,6 +17,8 @@ RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/
         gcc \
         g++ \
         libpq-dev \
+        libgl1 \
+        libglib2.0-0 \
         vim \
         curl \
     && rm -rf /var/lib/apt/lists/*

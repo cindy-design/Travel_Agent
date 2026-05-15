@@ -157,8 +157,8 @@ class DataCollector:
                 flight_data = validated_flights
                 logger.info(f"成功收集并验证 {len(flight_data)} 条航班数据")
             else:
-                logger.warning(f"未获取到航班数据: {departure} -> {destination}")
-                flight_data = []
+                logger.warning(f"未获取到航班数据: {departure} -> {destination}，使用Mock数据兜底")
+                flight_data = await self._get_mock_flights(departure, destination, start_date, end_date)
             
             # 缓存数据 (5分钟缓存，航班数据变化较快)
             await set_cache(cache_key_str, flight_data, ttl=300)
@@ -169,6 +169,67 @@ class DataCollector:
             logger.error(f"收集航班数据失败: {departure} -> {destination}, 错误: {e}")
             return []
     
+    async def _get_mock_flights(
+        self, departure: str, destination: str, start_date: datetime, end_date: datetime
+    ) -> List[Dict[str, Any]]:
+        """当真实航班API不可用时，生成模拟航班数据"""
+        import json, random, os
+        mock_path = os.path.join(os.path.dirname(__file__), '..', '..', 'mock_flight_data.json')
+        try:
+            with open(mock_path, 'r', encoding='utf-8') as f:
+                mock_data = json.load(f)
+            templates = mock_data.get('mock_flights', [])
+        except Exception:
+            templates = []
+
+        airlines = [
+            {'code': 'CA', 'name': '中国国际航空', 'aircraft': 'A320'},
+            {'code': 'MU', 'name': '中国东方航空', 'aircraft': 'B737'},
+            {'code': 'CZ', 'name': '中国南方航空', 'aircraft': 'A321'},
+            {'code': 'HU', 'name': '海南航空', 'aircraft': 'B787'},
+            {'code': 'ZH', 'name': '深圳航空', 'aircraft': 'A320'},
+        ]
+
+        dep_date = start_date if isinstance(start_date, datetime) else datetime.fromisoformat(str(start_date))
+        flights = []
+        for i in range(3):
+            hour = 7 + i * 3 + random.randint(0, 2)
+            minute = random.choice([0, 15, 30, 45])
+            dep_time = dep_date.replace(hour=min(hour, 22), minute=minute)
+            duration_min = random.randint(120, 300)
+            arr_time = dep_time + __import__('datetime').timedelta(minutes=duration_min)
+
+            airline = templates[i].get('airline_name', random.choice(airlines)['name']) if i < len(templates) else random.choice(airlines)['name']
+            airline_code = templates[i].get('airline', 'CA') if i < len(templates) else 'CA'
+            aircraft = templates[i].get('aircraft', 'A320') if i < len(templates) else 'A320'
+            base_price = templates[i].get('price', 800) if i < len(templates) else 800
+
+            flights.append({
+                'id': f'mock_{departure}_{destination}_{i}',
+                'airline': airline_code,
+                'airline_name': airline,
+                'flight_number': f'{airline_code}{random.randint(1000,9999)}',
+                'departure_time': dep_time.isoformat(),
+                'arrival_time': arr_time.isoformat(),
+                'duration': f'{duration_min // 60}小时{duration_min % 60}分钟',
+                'price': base_price + random.randint(-200, 500),
+                'currency': 'CNY',
+                'price_cny': base_price + random.randint(-200, 500),
+                'aircraft': aircraft,
+                'stops': 0,
+                'origin': departure,
+                'destination': destination,
+                'date': dep_date.strftime('%Y-%m-%d'),
+                'rating': round(random.uniform(3.8, 4.8), 1),
+                'cabin_class': '经济舱',
+                'baggage_allowance': '20kg托运行李',
+                'collected_at': datetime.utcnow().isoformat(),
+                'route': f'{departure} -> {destination}',
+                'is_mock': True,
+            })
+        logger.info(f"生成 {len(flights)} 条Mock航班数据: {departure} -> {destination}")
+        return flights
+
     def _validate_flight_data(self, flight: Dict[str, Any]) -> bool:
         """验证航班数据的完整性"""
         required_fields = ['id', 'airline', 'flight_number', 'departure_time', 'arrival_time', 'price']
