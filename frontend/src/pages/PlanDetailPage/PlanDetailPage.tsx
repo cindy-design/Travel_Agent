@@ -54,10 +54,13 @@ interface Attraction {
   name?: string;
   category?: string;
   description?: string;
+  intro?: string;
   price?: number | string;
+  ticket_price?: string;
   price_note?: string;
   rating?: number | string;
   visit_time?: string;
+  visit_duration?: number;
   opening_hours?: string;
   opening_hours_text?: string;
   best_visit_time?: string;
@@ -89,6 +92,9 @@ interface ScheduleEntry {
   details?: string;
   cost?: number | string;
   tips?: string;
+  transport_mode?: string;
+  distance_km?: number;
+  duration_min?: number;
 }
 
 // 每日行程接口定义
@@ -403,6 +409,13 @@ const ActivityTimelineCard: React.FC<{ entry: ScheduleEntry }> = ({ entry }) => 
       {entry.tips && (
         <Text type="secondary" style={{ fontSize: 12 }}>{entry.tips}</Text>
       )}
+      {entry.transport_mode && (
+        <div style={{ background: 'rgba(124,58,237,0.06)', borderRadius: 6, padding: '4px 10px', marginTop: 4, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <Tag color="purple" style={{ margin: 0, fontSize: 10 }}>{entry.transport_mode}</Tag>
+          {entry.distance_km != null && <Text style={{ fontSize: 11 }}>{entry.distance_km}km</Text>}
+          {entry.duration_min != null && <Text style={{ fontSize: 11 }}>约{entry.duration_min}分钟</Text>}
+        </div>
+      )}
     </Space>
   </Card>
 );
@@ -530,12 +543,27 @@ const AttractionCard: React.FC<{ attraction: Attraction; index: number }> = ({ a
                 <ClockCircleOutlined style={{ fontSize: 8 }} /> {openingText}
               </Tag>
             )}
-            {attraction.price_note && (
-              <Tag color="gold" style={{ fontSize: 10, maxWidth: 'calc(100% - 8px)', whiteSpace: 'normal', wordBreak: 'break-word', flex: '0 1 auto' }}>
-                <DollarOutlined style={{ fontSize: 8 }} /> {attraction.price_note}
+            {(attraction.ticket_price || attraction.price) && (
+              <Tag color="volcano" style={{ fontSize: 10, maxWidth: 'calc(100% - 8px)', whiteSpace: 'normal', wordBreak: 'break-word', flex: '0 1 auto' }}>
+                <DollarOutlined style={{ fontSize: 8 }} /> 门票 {attraction.ticket_price || attraction.price}
+              </Tag>
+            )}
+            {attraction.visit_duration && (
+              <Tag color="blue" style={{ fontSize: 10, flex: '0 1 auto' }}>
+                <ClockCircleOutlined style={{ fontSize: 8 }} /> 建议游玩 {attraction.visit_duration}分钟
               </Tag>
             )}
           </div>
+          {attraction.intro && (
+            <div style={{ background: 'rgba(124,58,237,0.04)', borderRadius: 8, padding: '8px 12px', marginTop: 4, borderLeft: '3px solid rgba(124,58,237,0.3)' }}>
+              <Text style={{ fontSize: 12, wordBreak: 'break-word', lineHeight: 1.8 }}>{attraction.intro}</Text>
+            </div>
+          )}
+          {attraction.price_note && (
+            <Tag color="gold" style={{ fontSize: 10, maxWidth: 'calc(100% - 8px)', whiteSpace: 'normal', wordBreak: 'break-word', flex: '0 1 auto' }}>
+              <DollarOutlined style={{ fontSize: 8 }} /> {attraction.price_note}
+            </Tag>
+          )}
           {attraction.address && (
             <Text type="secondary" style={{ fontSize: 12 }}>
               <EnvironmentOutlined style={{ marginRight: 4 }} />
